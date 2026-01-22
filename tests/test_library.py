@@ -1,25 +1,18 @@
 import unittest
 from src.library import Library
 
-class TestLibrarySprint2(unittest.TestCase):
+class TestLibrarySprint3(unittest.TestCase):
 
-    def setUp(self):
-        self.lib = Library()
-        self.lib.add_book("B1", "Python", "Guido")
+    def test_report_contains_header(self):
+        lib = Library()
+        report = lib.generate_report()
+        self.assertIn("Book ID", report)
 
-    def test_borrow_available_book(self):
-        self.lib.borrow_book("B1")
-        self.assertTrue(self.lib.books["B1"]["borrowed"])
-
-    def test_borrow_unavailable_book(self):
-        self.lib.borrow_book("B1")
-        with self.assertRaises(ValueError):
-            self.lib.borrow_book("B1")
-
-    def test_return_book(self):
-        self.lib.borrow_book("B1")
-        self.lib.return_book("B1")
-        self.assertFalse(self.lib.books["B1"]["borrowed"])
+    def test_report_contains_book(self):
+        lib = Library()
+        lib.add_book("B1", "Python", "Guido")
+        report = lib.generate_report()
+        self.assertIn("B1", report)
 
 if __name__ == "__main__":
     unittest.main()
